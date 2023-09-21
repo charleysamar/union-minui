@@ -1532,6 +1532,30 @@ int main (int argc, char *argv[]) {
 				// list
 				if (total>0) {
 					int selected_row = top->selected - top->start;
+
+					char boxart_path[256];
+					char* entry_path;
+					Entry* entry = top->entries->items[top->selected];
+
+					entry_path = entry->path;
+
+					if( prefixMatch(ROMS_PATH, entry_path ) ){ // Show boxart for roms only
+						getBoxArtPath(entry_path, boxart_path);
+
+						// LOG_info("Find image entry_path: %s\n", entry_path);
+						// LOG_info("Find image boxart_path: %s\n", boxart_path);
+
+						if( exists(boxart_path) ){ // image exist
+							// LOG_info("Image exists");
+							SDL_Surface* box_art = IMG_Load(boxart_path);
+							if (!box_art) LOG_error("IMG_Load: %s\n", IMG_GetError());
+							SDL_BlitSurface(box_art, NULL, screen, NULL);
+							SDL_FreeSurface(box_art);
+						} else {
+							// LOG_info("Image do not exists\n");
+						}
+					}
+
 					for (int i=top->start,j=0; i<top->end; i++,j++) {
 						Entry* entry = top->entries->items[i];
 						char* entry_name = entry->name;

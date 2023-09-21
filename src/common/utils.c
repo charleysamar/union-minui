@@ -25,7 +25,7 @@ int exactMatch(char* str1, char* str2) {
 	return (strncmp(str1,str2,len1)==0);
 }
 int hide(char* file_name) {
-	return file_name[0]=='.';
+	return file_name[0] == '.' || strcmp(file_name, "Imgs") == 0;
 }
 
 void getDisplayName(const char* in_name, char* out_name) {
@@ -70,6 +70,29 @@ void getDisplayName(const char* in_name, char* out_name) {
   if (!strcmp("Tools", out_name)) {
     strcpy(out_name, "Settings");
   }
+}
+void getBoxArtPath(const char* in_path, char* out_path) {
+	char *last_slash = strrchr(in_path, '/');
+	char *last_dot;
+
+	// Calculate the length of the directory path
+	size_t dir_length = last_slash - in_path;
+
+	// Copy the directory path into out_path
+	memcpy(out_path, in_path, dir_length);
+	out_path[dir_length] = '\0';
+
+	// Append "Imgs" folder and file name
+	sprintf(out_path, "%s/Imgs/%s", out_path, last_slash + 1);
+
+	// Find and remove filetype
+	last_dot = strrchr(out_path, '.');
+	if (last_dot) {
+		*last_dot = '\0';
+	}
+
+	// Append new filetype, which is image
+	strcat(out_path, ".png");
 }
 void getEmuName(const char* in_name, char* out_name) { // NOTE: both char arrays need to be MAX_PATH length!
 	char* tmp;

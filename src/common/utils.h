@@ -9,6 +9,7 @@ int exactMatch(char* str1, char* str2);
 int hide(char* file_name);
 
 void getDisplayName(const char* in_name, char* out_name);
+void getBoxArtPath(const char* in_path, char* out_path);
 void getEmuName(const char* in_name, char* out_name);
 void getEmuPath(char* emu_name, char* pak_path);
 
